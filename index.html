@@ -1,0 +1,40 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyAEA5mjzTdapZBG55QJGMNGvHtS9tmeYmk",
+      authDomain: "gallery-ec238.firebaseapp.com",
+      databaseURL: "https://gallery-ec238.firebaseio.com",
+      storageBucket: "gallery-ec238.appspot.com",
+      messagingSenderId: "361546001747"
+    };
+    firebase.initializeApp(config);
+    var galleryRef = firebase.database().ref('gallery');
+    galleryRef.on('value', function(snapshot) {
+      console.log(snapshot.val());
+      document.getElementById('gallery').innerHTML = _.values(snapshot.val()).reduce((prev, next, index, arr) => {
+        return `${prev}
+        <img src="${next.thumbnailUrl}"></img>`
+      }, '')
+    });
+  </script>
+
+</head>
+<body>
+  <div id="gallery"></div>
+
+
+  <script src="scripts/main.js"></script>
+</body>
+</html>
